@@ -13,7 +13,7 @@ namespace LostBot.Commands
         public async override void Execute(Message message, TelegramBotClient client)
         {
             var chatId = message.Chat.Id;
-            string msg = "Помощь\n/weather (Город) - Узнать погоду🌤";
+            string msg = "Помощь\n/weather (Город) - Узнать погоду🌤\n/news (0 - 7) - Последние новости";
             await client.SendTextMessageAsync(chatId: chatId, text: msg).ConfigureAwait(false);
         }
     }

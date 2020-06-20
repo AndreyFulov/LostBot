@@ -19,12 +19,15 @@ namespace LostBot
         {
             botClient = new TelegramBotClient("1149814876:AAH4COgEK8ZXkd2h4EKV5XVNkeMtIk0t7uw") {Timeout = TimeSpan.FromSeconds(10)};
             commandsList = new List<Command>();
+            VkInit.Initialize();
 
             //Добавить Комманды
             commandsList.Add(new HelloCommand());
             commandsList.Add(new TestCommand());
             commandsList.Add(new GetWeatherCommand());
             commandsList.Add(new HelpCommand());
+            commandsList.Add(new NewsCommand());
+            commandsList.Add(new MemesCommand());
 
             botClient.OnMessage += Command.BotClient_OnMessage;
             botClient.StartReceiving();
