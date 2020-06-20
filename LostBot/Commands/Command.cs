@@ -9,9 +9,11 @@ namespace LostBot.Commands
     public abstract class Command
     {
         public abstract string Name { get; }
+        public static string[] words;
         public static void BotClient_OnMessage(object sender, Telegram.Bot.Args.MessageEventArgs e)
         {
             var text = e?.Message?.Text;
+            words = text.Split(' ');
             var message = e.Message;
             var commands = Program.Commands;
             var client = Program.GetClient();
@@ -22,7 +24,7 @@ namespace LostBot.Commands
             }
 
             foreach (var command in commands) {
-                if(text == command.Name)
+                if(words[0] == command.Name)
                 {
                     command.Execute(message, client);
                 }

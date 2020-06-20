@@ -23,17 +23,33 @@ namespace LostBot.Commands
         }
         public string GetWeather()
         {
-            string url = "http://api.openweathermap.org/data/2.5/weather?q=Dzhubga&units=metric&appid=4292447e0e5ac7340a328459cca86914";
-            HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
-            HttpWebResponse httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
-            string response;
-            using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
+            string city;
+           if(words.Length == 1 || words.Length > 2)
             {
-                response = streamReader.ReadToEnd();
+                city = "Москва";
+            }else
+            {
+                city = words[1];
             }
-            WeatherResponse weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(response);
+           string url = "http://api.openweathermap.org/data/2.5/weather?q=" + city + "&units=metric&appid=4292447e0e5ac7340a328459cca86914";
+           HttpWebRequest httpWebRequest = (HttpWebRequest)WebRequest.Create(url);
+            HttpWebResponse httpWebResponse;
+           try
+            {
+                httpWebResponse = (HttpWebResponse)httpWebRequest.GetResponse();
+            }catch(Exception e)
+            {
+                Console.WriteLine(e);
+                return "Опа, а города то нет...";
+            }
+           string response;
+           using (StreamReader streamReader = new StreamReader(httpWebResponse.GetResponseStream()))
+           {
+                response = streamReader.ReadToEnd();
+           }
+           WeatherResponse weatherResponse = JsonConvert.DeserializeObject<WeatherResponse>(response);
 
-            return $"🌤Погода в городе: Джубга\n🌡Температура в Цельсиях: {weatherResponse.Main.Temp}";
+           return $"🌤Погода в городе: {city}\n🌡Температура в Цельсиях: {weatherResponse.Main.Temp}\n🌬Скорость ветра: {weatherResponse.Wind.speed} м/с\n☁️Облачность: {weatherResponse.Clouds.All}%";
         }
     }
 }

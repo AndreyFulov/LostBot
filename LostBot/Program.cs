@@ -24,11 +24,10 @@ namespace LostBot
             commandsList.Add(new HelloCommand());
             commandsList.Add(new TestCommand());
             commandsList.Add(new GetWeatherCommand());
+            commandsList.Add(new HelpCommand());
 
             botClient.OnMessage += Command.BotClient_OnMessage;
             botClient.StartReceiving();
-            VkInit vkInit = new VkInit();
-            vkInit.Login();
             Console.ReadKey();
         }
         public static TelegramBotClient GetClient()
